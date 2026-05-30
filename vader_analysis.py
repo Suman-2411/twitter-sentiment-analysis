@@ -8,14 +8,16 @@ def analyze_vader(text):
     #to get sentiment score and compound score
     scores=analyzer.polarity_scores(text)
     compound=scores['compound']
+    #return both sentiment AND compound
+
 
     #to classify sentiment
-    if compound >=0.5:
-        return 'positive'
-    elif compound <=0.5:
-        return 'negative'
+    if compound >=0.05:
+        return 'positive',compound
+    elif compound <=-0.05:
+        return 'negative',compound
     else:
-        return 'neutral'
+        return 'neutral',compound
     
 def run_vader(df):
     #Apply vader to every tweet
@@ -23,11 +25,11 @@ def run_vader(df):
     print(df[['clean_tweet','vader_sentiment']].head(15))
     return df
 
-from clean_data import clean_dataset
-from fetch_tweets import load_tweets
+#from clean_data import clean_dataset
+#from fetch_tweets import load_tweets
 
-df = load_tweets('new_train_data_s140.csv')
-df=clean_dataset(df)
-df=run_vader(df)
-df.to_csv('vader_results.csv',index=False)
-print('Saved vader_results.csv!')
+#df = load_tweets('new_train_data_s140.csv')
+#df=clean_dataset(df)
+#df=run_vader(df)
+#df.to_csv('vader_results.csv',index=False)
+#print('Saved vader_results.csv!')
