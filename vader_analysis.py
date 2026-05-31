@@ -1,35 +1,29 @@
-import pandas as pd 
+import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-#To Intialize Vader moder
-analyzer=SentimentIntensityAnalyzer()
+# tried textblob first but the scores were all over the place
+# from textblob import TextBlob
+# cleaned up a bit 
+analyzer = SentimentIntensityAnalyzer()
 
 def analyze_vader(text):
-    #to get sentiment score and compound score
-    scores=analyzer.polarity_scores(text)
-    compound=scores['compound']
-    #return both sentiment AND compound
+    scores = analyzer.polarity_scores(text)
+    compound = scores['compound']
 
-
-    #to classify sentiment
-    if compound >=0.05:
-        return 'positive',compound
-    elif compound <=-0.05:
-        return 'negative',compound
+    # 0.05 threshold from vader docs, seemed to work ok on test data
+    if compound >= 0.05:
+        return 'positive', compound
+    elif compound <= -0.05:
+        return 'negative', compound
     else:
-        return 'neutral',compound
-    
+        return 'neutral', compound
+
 def run_vader(df):
-    #Apply vader to every tweet
-    df['vader_sentiment']=df['clean_tweet'].apply(analyze_vader)
-    print(df[['clean_tweet','vader_sentiment']].head(15))
+    # TODO: maybe add progress bar here for large datasets
+    df['vader_sentiment'] = df['clean_tweet'].apply(analyze_vader)
+    print(df[['clean_tweet', 'vader_sentiment']].head(15))
     return df
 
-#from clean_data import clean_dataset
-#from fetch_tweets import load_tweets
-
-#df = load_tweets('new_train_data_s140.csv')
-#df=clean_dataset(df)
-#df=run_vader(df)
-#df.to_csv('vader_results.csv',index=False)
-#print('Saved vader_results.csv!')
+# quick test
+# df = pd.read_csv('new_train_data_s140.csv')
+# run_vader(df)
