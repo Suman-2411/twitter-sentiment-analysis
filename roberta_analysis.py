@@ -1,30 +1,35 @@
 import streamlit as st
 from transformers import pipeline
-import pandas as pd
 
-@st.cache_resource 
+@st.cache_resource
 def load_roberta_model():
+    # cache this or it reloads every single time, took me ages to figure out
     return pipeline(
         "sentiment-analysis",
-        model="cariffnlp/twitter-roberta-base-sentiment",
+        model="cardiffnlp/twitter-roberta-base-sentiment",
         max_length=512,
         truncation=True
     )
 
-#load RoBERTa model
 def analyze_roberta(text):
     try:
-        sentiment_pipeline=load_roberta_model()
-        result=sentiment_pipeline(text)[0]
-        label=result['label']
+        pipe = load_roberta_model()
+        result = pipe(text)[0]
 
-        #to convert labels into readable format
-        if label=='LABEL_0':
+        label = result['label']
+        score = result['score']
+
+        # debug - remove this later
+        print(f"label: {label}, score: {score}")
+
+        # cardiffnlp docs say LABEL_0=neg, LABEL_1=neu, LABEL_2=pos
+        if label == 'LABEL_0':
             return 'negative'
-        elif label=='LABEL_1':
-            return 'neutral'
-        else:
+        elif label == 'LABEL_2':
             return 'positive'
-    except:
+        else:
+            return 'neutral'
+
+    except Exception as e:
+        print(f"something broke: {e}")
         return 'neutral'
-    
