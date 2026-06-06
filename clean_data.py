@@ -7,7 +7,7 @@ def clean_tweet(text):
     #remove @mention
     text=re.sub(r'@\w+','',text)
     #remove special characters
-    text=re.sub('[^a-zA-Z\s]','',text)
+    text=re.sub(r'[^a-zA-Z\s]','',text)
     #convert int lower case
     text=text.lower()
     #remove spaces
@@ -25,11 +25,11 @@ def clean_dataset(df):
     return df
 
 #load and clean data
-from fetch_tweets import load_tweets
+#from fetch_tweets import load_tweets
 
-df=load_tweets('new_train_data_s140.csv')
-df=clean_dataset(df)
+#df=load_tweets('new_train_data_s140.csv')
+#df=clean_dataset(df)
 
 #save the cleaned data
-df.to_csv("cleaned_tweets.csv",index=False)
-print("Saved to cleaned_tweets.csv")
+#df.to_csv("cleaned_tweets.csv",index=False)
+#print("Saved to cleaned_tweets.csv")

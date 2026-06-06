@@ -20,9 +20,18 @@ def analyze_vader(text):
         return 'neutral', compound
 
 def run_vader(df):
-    # TODO: maybe add progress bar for big data
-    df['vader_sentiment'] = df['clean_tweet'].apply(analyze_vader)
-    print(df[['clean_tweet', 'vader_sentiment']].head(15))
+    sentiments = []
+    scores = []
+    
+    for tweet in df['clean_tweet']:
+        sentiment, score = analyze_vader(tweet)
+        sentiments.append(sentiment)
+        scores.append(score)
+    
+    df['vader_sentiment'] = sentiments
+    df['vader_score'] = scores
+    
+    print(df[['clean_tweet','vader_sentiment']].head(15))
     return df
 
 #  for quick test
