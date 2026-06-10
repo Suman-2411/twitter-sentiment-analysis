@@ -1,7 +1,7 @@
 import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-# tried textblob first but it was not good
+# tried textblob first but it was not good for twitter sentiment analysis
 # from textblob import TextBlob
 
 # cleaned up a bit 
