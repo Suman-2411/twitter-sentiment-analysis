@@ -3,7 +3,7 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_roberta_model():
-    # cache this or it reloads every single time, took me ages to figure out
+    # cache - without this it reload every time and that takes too much time and very slow
     return pipeline(
         "sentiment-analysis",
         model="cardiffnlp/twitter-roberta-base-sentiment",
@@ -19,10 +19,7 @@ def analyze_roberta(text):
         label = result['label']
         score = result['score']
 
-        # debug - remove this later
-        print(f"label: {label}, score: {score}")
-
-        # cardiffnlp docs say LABEL_0=neg, LABEL_1=neu, LABEL_2=pos
+        # LABEL_0 is negative, LABEL_1 is neutral, LABEL_2 is positive
         if label == 'LABEL_0':
             return 'negative'
         elif label == 'LABEL_2':
@@ -31,5 +28,6 @@ def analyze_roberta(text):
             return 'neutral'
 
     except Exception as e:
+        #if something goes wrong just return neutral
         print(f"something broke: {e}")
         return 'neutral'

@@ -1,10 +1,10 @@
 import tweepy
 import pandas as pd
 from config import BEARER_TOKEN
-#-------------------------live tweets from tweepy-------------------------------
 
 #authenticate with twitter to fetch the tweets
 client = tweepy.Client(bearer_token = BEARER_TOKEN)
+
 #fetch the tweets based on our keyword 
 def fetch_tweets(keyword, max_results = 10):
 
@@ -13,6 +13,7 @@ def fetch_tweets(keyword, max_results = 10):
         max_results=max_results,
         tweet_fields=['text','created_at'])
     
+    #extracting the data 
     data = []
     for tweet in tweets.data:
         data.append({
@@ -51,4 +52,4 @@ def load_tweets(filepath):
     return df
 
 #test kaggle
-df=load_tweets('new_train_data_s140.csv')     
+#df=load_tweets('new_train_data_s140.csv')  

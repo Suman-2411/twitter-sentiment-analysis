@@ -24,7 +24,7 @@ def clean_dataset(df):
     print(df.head())
     return df
 
-load and clean data
+#load and clean data
 #from fetch_tweets import load_tweets
 
 #df=load_tweets('new_train_data_s140.csv')
