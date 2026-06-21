@@ -46,7 +46,7 @@ def load_tweets(filepath):
 
     #convert 0=negative, 4=positive 
     df['sentiment']=df['sentiment'].map(
-            {0:'negative',4:'positive'})
+            {0:'negative',2:'neutral',4:'positive'})
     print(f'Loaded {len(df)} tweets!')
     print(df.head())
     return df
